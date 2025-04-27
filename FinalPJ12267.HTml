@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>เที่ยวไทยสไตล์มินิมอล</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      margin: 0;
+      padding: 20px;
+      background:url('https://s.isanook.com/tr/0/ud/252/1262462/doiaungkan.jpg') center/cover no-repeat fixed;
+      color: #333;
+    }
+    header {
+      background: linear-gradient(135deg, #ddd8df,#f9bcff);
+      padding: 40px 20px;
+      text-align: center;
+      border-radius: 0 0 30px 30px;
+      margin: -20px -20px 20px -20px;
+    }
+    h1 {
+      font-size: 32px;
+      color: #fff;
+      margin: 0;
+    }
+    .search-box {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    input[type="text"] {
+      padding: 10px;
+      width: 100%;
+      max-width: 400px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+    .filter-button {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #0077cc;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 16px;
+      margin: 0 auto 20px;
+    }
+    .filter-options {
+      display: none;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      max-width: 500px;
+      margin: 0 auto 20px;
+    }
+    .filter-options select {
+      width: 100%;
+      padding: 10px;
+      border-radius: 8px;
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .card {
+      background: white;
+      border-radius: 16px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s,box-shadow 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      transition: opacity 0.3s ease;
+    }
+    .card:hover img {
+      opacity: 0.85;
+    }
+    .card-content {
+      padding: 16px;
+    }
+    .card-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .card-sub {
+      font-size: 14px;
+      color: #666;
+      margin: 4px 0 10px;
+    }
+    .card-links a {
+      margin-right: 10px;
+      font-size: 14px;
+      color: #0077cc;
+      text-decoration: none;
+    }
+    #noResults {
+      text-align: center;
+      color: #999;
+      margin-top: 40px;
+      display: none;
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <h1>เที่ยวไทยสไตล์มินิมอล</h1>
+</header>
+
+<div class="search-box">
+  <input type="text" id="searchBox" placeholder="ค้นหาสถานที่หรือจังหวัด..." onkeyup="filterPlaces()">
+</div>
+
+<button class="filter-button" onclick="toggleFilter()">⛯ Filter</button>
+
+<div id="filterOptions" class="filter-options">
+  <select id="regionFilter" onchange="filterPlaces()">
+    <option value="">ทุกภาค</option>
+    <option value="เหนือ">ภาคเหนือ</option>
+    <option value="กลาง">ภาคกลาง</option>
+    <option value="อีสาน">ภาคตะวันออกเฉียงเหนือ</option>
+    <option value="ใต้">ภาคใต้</option>
+    <option value="ตะวันออก">ภาคตะวันออก</option>
+  </select>
+  <select id="categoryFilter" onchange="filterPlaces()">
+    <option value="">ทุกหมวดหมู่</option>
+    <option value="วัด">วัด</option>
+    <option value="ทะเล">ทะเล</option>
+    <option value="ภูเขา">ภูเขา</option>
+    <option value="ธรรมชาติ">ธรรมชาติ</option>
+  </select>
+</div>
+
+<div class="grid" id="placesGrid">
+
+<!-- (โค้ดการ์ดต่าง ๆ ของคุณยังคงเหมือนเดิมที่เคยวางมา เช่น วัดพระแก้ว, ดอยอ่างขาง, ถ้ำมรกต ฯลฯ) -->
+<!-- ผมไม่ลบอะไรทิ้งนะ ยังอยู่ครบ 12 การ์ด -->
+
+<!-- ยกตัวอย่างสัก 1 การ์ด -->
+
+<div class="card" data-region="กลาง" data-category="วัด">
+  <img src="https://static.thairath.co.th/media/dFQROr7oWzulq5FZUEh3MRrERXP2ZCRNt1ty78Z5JDNiHOl2du9iOHIqJeNLXCRgRHB.jpg" alt="วัดพระแก้ว">
+  <div class="card-content">
+    <div class="card-title">วัดพระแก้ว</div>
+    <div class="card-sub">กรุงเทพมหานคร</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=วัดพระแก้ว" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/วัดพระแก้ว" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="ใต้" data-category="ทะเล">
+  <img src="https://aec10news.com/wp-content/uploads/2019/05/990589ca64d5774fdf3b01ab7afb6d8d_XL.jpg" alt="ถ้ำมรกต">
+  <div class="card-content">
+    <div class="card-title">ถ้ำมรกต</div>
+    <div class="card-sub">เกาะมุก ตรัง</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ถ้ำมรกต" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ถ้ำมรกต" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="เหนือ" data-category="ภูเขา">
+  <img src="https://esportivida.com/wp-content/uploads/2022/11/1-77.jpg" alt="ดอยอ่างขาง">
+  <div class="card-content">
+    <div class="card-title">ดอยอ่างขาง ซากุระเมืองไทย</div>
+    <div class="card-sub">เชียงใหม่</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ดอยอ่างขาง" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ดอยอ่างขาง" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="อีสาน" data-category="ธรรมชาติ">
+  <img src="https://kongthaijeen.com/wp-content/uploads/2023/03/288.jpg" alt="สามพันโบก">
+  <div class="card-content">
+    <div class="card-title">สามพันโบก</div>
+    <div class="card-sub">อุบลราชธานี</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=สามพันโบก" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/สามพันโบก" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="อีสาน" data-category="ธรรมชาติ">
+  <img src="https://s359.kapook.com/pagebuilder/ee7e999c-34c4-48cc-8309-d4b741e77aed.jpg" alt="ทุ่งดอกกระเจียว">
+  <div class="card-content">
+    <div class="card-title">ทุ่งดอกกระเจียว</div>
+    <div class="card-sub">ชัยภูมิ</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ทุ่งดอกกระเจียว" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ทุ่งดอกกระเจียว" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="อีสาน" data-category="วัด">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/8/87/%E0%B8%9B%E0%B8%A3%E0%B8%B2%E0%B8%AA%E0%B8%B2%E0%B8%97%E0%B8%A3%E0%B9%80%E0%B8%82%E0%B8%B2%E0%B8%9E%E0%B8%99%E0%B8%A1%E0%B8%A3%E0%B8%B8%E0%B9%89%E0%B8%87IDSC_0827.jpg" alt="ปราสาทพนมรุ้ง">
+  <div class="card-content">
+    <div class="card-title">ปราสาทพนมรุ้ง</div>
+    <div class="card-sub">บุรีรัมย์</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ปราสาทพนมรุ้ง" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ปราสาทพนมรุ้ง" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="เหนือ" data-category="ภูเขา">
+  <img src="https://www.palanla.com//upload/dms/real/pic-202317011673975353_15817.jpg" alt="หมู่บ้านรักไทย">
+  <div class="card-content">
+    <div class="card-title">หมู่บ้านรักไทย</div>
+    <div class="card-sub">แม่ฮ่องสอน</div>
+    <div class="card-links">
+      <a href="https://maps.app.goo.gl/KVzgMF29K7r1kBnG6" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/หมู่บ้านรักไทย" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="ตะวันออก" data-category="ธรรมชาติ">
+  <img src="https://cdn2.mushroomtravel.com/files/MUSH/Uploads/Attraction/202003/Tung%20Prong%20Thong%20or%20Golden%20Mangrove%20Field%2C%20Pra%20Sae%2C%20Rayong%20-%20Gettyimages%20%284%29.jpg" alt="ทุ่งโปรงทอง">
+  <div class="card-content">
+    <div class="card-title">ทุ่งโปรงทอง</div>
+    <div class="card-sub">ระยอง</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ทุ่งโปรงทอง" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ทุ่งโปรงทอง" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="ใต้" data-category="ธรรมชาติ">
+  <img src="https://storage.googleapis.com/tripniceday/uploads/imageries/1693817939270.jpg" alt="ลิวงค์ จะนะ">
+  <div class="card-content">
+    <div class="card-title">ลิวงค์ จะนะ</div>
+    <div class="card-sub">สงขลา</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=ลิวงค์" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/ลิวงค์" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="ใต้" data-category="ทะเล">
+  <img src="https://s359.kapook.com/pagebuilder/50c7e73c-dc00-4d32-8a50-1902c32f46c0.jpg" alt="หมู่เกาะสุรินทร์">
+  <div class="card-content">
+    <div class="card-title">อุทยานแห่งชาติหมู่เกาะสุรินทร์</div>
+    <div class="card-sub">พังงา</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=อุทยานแห่งชาติหมู่เกาะสุรินทร์" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/อุทยานแห่งชาติหมู่เกาะสุรินทร์" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="เหนือ" data-category="ธรรมชาติ">
+  <img src="https://s359.kapook.com/pagebuilder/949941b6-d6f0-42f9-a6fd-f3109e73cb0d.jpg" alt="น้ำตกทีลอซู">
+  <div class="card-content">
+    <div class="card-title">น้ำตกทีลอซู เขตรักษาพันธุ์สัตว์ป่าอุ้มผาง</div>
+    <div class="card-sub">ตาก</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=น้ำตกทีลอซู" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/น้ำตกทีลอซู" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+<div class="card" data-region="เหนือ" data-category="วัด">
+  <img src="https://cbtthailand.dasta.or.th/upload-file-api/Resources/RelateAttraction/Images/RAT640059/3.jpeg" alt="วัดศรีชุม">
+  <div class="card-content">
+    <div class="card-title">วัดศรีชุม</div>
+    <div class="card-sub">สุโขทัย</div>
+    <div class="card-links">
+      <a href="https://maps.google.com/?q=วัดศรีชุม" target="_blank">แผนที่</a>
+      <a href="https://www.instagram.com/explore/tags/วัดศรีชุม" target="_blank">Instagram</a>
+    </div>
+  </div>
+</div>
+
+</div>
+
+</div>
+
+<div id="noResults">ไม่พบสถานที่ที่ตรงกับการค้นหา</div>
+
+<script>
+  function toggleFilter() {
+    const filterBox = document.getElementById('filterOptions');
+    filterBox.style.display = (filterBox.style.display === 'none' || filterBox.style.display === '') ? 'block' : 'none';
+  }
+
+  function filterPlaces() {
+    const search = document.getElementById('searchBox').value.toLowerCase();
+    const region = document.getElementById('regionFilter').value;
+    const category = document.getElementById('categoryFilter').value;
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+      const name = card.querySelector('.card-title').innerText.toLowerCase();
+      const province = card.querySelector('.card-sub').innerText.toLowerCase();
+      const cardRegion = card.getAttribute('data-region');
+      const cardCategory = card.getAttribute('data-category');
+
+      const matchSearch = name.includes(search) || province.includes(search);
+      const matchRegion = !region || cardRegion === region;
+      const matchCategory = !category || cardCategory === category;
+
+      card.style.display = (matchSearch && matchRegion && matchCategory) ? '' : 'none';
+    });
+
+    const anyVisible = Array.from(cards).some(card => card.style.display !== 'none');
+    document.getElementById('noResults').style.display = anyVisible ? 'none' : 'block';
+  }
+</script>
+<footer style="text-align: center; font-size: 14px; color: #666; margin-top: 40px; padding: 10px 0;">
+  © 2025 ออกแบบและพัฒนาโดย กลุ่มลุ่มๆดอนๆลอแลๆ
+</footer>
+
+</body>
+</html>
